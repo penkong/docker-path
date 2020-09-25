@@ -1,0 +1,20 @@
+sudo: required
+language: generic
+services:
+  - docker
+before_install:
+  - docker build -t docker-test -f Dockerfile.dev .
+
+script:
+  - docker run -e CI=true docker-test npm run test -- --coverage
+# deploy:
+#   provider: elasticbeanstalk
+#   region: "us-west-2"
+#   app: "name of app in host"
+#   env: "env name in host"
+#   bucket_name: ""
+#   bucket_path: "like app name"
+#   on:
+#     branch: master
+#   access_key_id: $AWS_ACCESS_KEY
+#   secret_access_key: $AWS_SECRET_KEY

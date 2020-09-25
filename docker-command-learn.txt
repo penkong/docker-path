@@ -1,0 +1,933 @@
+namespacing isolating resources per process (or group of process)
+
+control groups (cgroups) limit amount of resources used per process must do by
+us.
+
+in windows and mac docker install a virtual linux machine .
+
+
+
+
+
+
+
+image = fs snapshot(contain program inside) + startup commands
+
+container = running process + kernel + hardware segment of this process.
+
+
+
+
+
+
+
+docker run <image> (command = or override command)
+
+docker run busybox echo hi there
+docker run busybox ls
+
+
+
+
+
+
+
+ls and echo are programs that exist inside busybox
+
+for example busybox has fs snapshot of : bin , dev , etc , home , proce and ...
+
+docker ps    ===    list all running containers
+
+docker ps --all   ===  list of all container you ever created.
+
+also use to get running container id.
+
+
+
+
+
+
+
+
+
+
+container lifecycle
+
+docker run == docker create + docker start
+
+docker create <image>  ===> give us id of docker container
+
+docker start -a <image id>
+
+without -a just show the id of started image
+
+-a   ===   make docker watch of output of running container.
+
+
+
+
+
+
+
+
+to restart a container again
+docker ps --all
+docker start <id of exited container>
+
+
+
+
+
+
+
+
+remove stopeed containers
+also remove build cache
+
+docker system prune
+
+
+
+
+
+
+
+
+log output.
+if forget -a
+
+docker logs <started container id>    ==> show out put of container.
+
+
+
+
+
+
+
+
+stop container is already runned
+
+docker stop <container of running id> ==> it send SIGTERM(terminate signal)
+					 can do clean up works like saving ...
+
+stop + 10s = kill
+
+docker kill <container id of running> ==> it send SIGKILL(kill signal) right now.
+
+
+
+
+
+
+
+
+multi command containers
+
+for example we want to access cli of redis
+for ex. we want redis-server + redis-cli
+
+docker exec   ===   execute an aditional command for and in container.
+
+to start second program in container
+docker exec -it  <container id is running>  <command to execute>
+
+exec = run another command
+-it  = allow us to provide input to container
+
+-it flag :
+each process in linux have 3 communicate channel attached to it
+	STDIN 		    STDOUT 		  STDERR
+     input terminal     output terminal          show error
+
+docker exec -it 3432432fsdf redis-cli
+
+// it's attacher to our command
+-it = 
+      -i(mean when exec command in termianl we want attach our terminal to it)
+        (means stuff i type direct it to redis-cli)
+    + -t(show text pretty format, auto complete and other things ...)
+
+
+most common use of docker exec
+open a shell in context of running container
+
+docker exec -it <container id running >   <command program like sh>
+ls
+export b=5
+
+
+also can do this
+docker run  -it <image> <call command>
+dont allow to you run any other process
+
+
+
+
+
+
+========================================
+
+
+
+
+
+
+
+
+
+creating docker images
+
+docker file     ---> docker client ---> docker server ---> image
+do config in it
+
+
+
+totall
+1. specify base image 
+
+2. run some commands to add addiontional program
+
+3. specify a command to run on container startup
+
+
+
+
+
+
+
+
+
+make Dockerfile
+use an existing docker images as base 
+
+
+download install dependency
+
+
+tell image what to do when it starts
+
+
+
+
+
+
+
+
+
+for build 
+
+docker build .
+
+docker run <generated id of image>
+
+
+
+
+
+
+
+
+
+docker file tear down
+2 part
+
+instruction tell to docker server   ,    argument to the instruction
+	FROM 					alpine
+	RUN
+	CMD
+
+writing a docker file === like a computer with no os install chrome
+for every line of instruction docker make intermediate file.
+every line create image of last line and do his work then rm it.
+finally rm first container and out put image to us
+
+
+
+
+
+
+
+
+
+
+tagging image
+					 this is tag
+docker build  -t <yourdockerId/projectname/version>  .(directory of files)
+
+
+
+
+
+
+manual image generation with docker commit
+
+docker commit -c 'CMD ["redis-server"]' <id or running container>
+
+
+
+
+
+=============================================================
+
+
+
+node app example 
+
+use package.json add deps there and add scripts
+
+write logic
+
+then add dockerfile.
+
+
+
+
+we must COPY files and folders from local to temporary container to let
+his do his job.
+
+
+COPY (path of files relative to build context)  (place of file inside contaienr)
+
+
+
+
+
+
+
+
+
+PORT MAPPING
+
+after this 
+must do Container Port mapping 
+
+because your local is seprate machine from container 
+that port in code defined on linux machine on container 
+you must port request for ex from 8080 of your local to 8080 of docker contaienr.
+
+docker run -p <route of income from local>:<port in container> <name of container = image id >
+
+
+
+
+
+
+
+
+
+
+DEFINE WORKDIR
+
+
+must specifiying a working directory for copied image
+
+WORKDIR /usr/app top of COPY
+
+
+
+
+
+
+Unnecessory rebuilds
+we want change code but main files of deps
+are still there without changes.
+
+we copy only package then run command
+and after that we add changes because use cache on npm pakcages
+
+
+
+
+
+===================================================================
+
+
+
+
+
+
+Docker Compose
+
+why docker compose ??? 
+use mulitple docker container and docker file
+
+when we want have info seprated or want scale one node of app to higher
+
+
+
+
+each container is in isolation you can not communicate to each other
+
+each container need networking structure.
+
+docker compose do this for us.
+
+help us to dont write command of docker cli.
+
+help connect multiple container
+
+
+
+
+
+
+encode docker cli command --> to docker-compose.yml --> feed to docker-compose cli
+
+what way we write
+
+first define containers we want to create
+then make each use
+
+
+
+
+CREATE DOCKER-COMPOSE YML FILE.
+
+services: (a service is contaienr in docker world)
+	redis
+		make it use
+		(specify image)
+
+	nodeapp 
+		specify build
+		make it use his dockerfile
+		do map porting let outworld access it.
+		"local:inside-container"
+		
+		
+		
+consider this
+must add the location of other services in nodeapp
+add name of your service in docker-compose.yml file to your code.
+
+
+
+
+
+
+
+NOW HOW USE IT?
+DOCKER-COMPSE COMMANDS
+
+
+
+
+docker run <generated image>
+
+become 
+
+docker-compse up
+
+
+and 
+
+
+docker build .
+docker run <generated iamge>
+
+become 
+
+docker-compose up --build(if we want rebuild image from docker file.)
+			 (to get latest changes in .yml file)
+			 
+			 
+			 
+			 
+		
+		
+		
+docker run -d <image>
+run docker container but execute it in background.
+
+docker ps   === show running 
+docker stop <id>
+
+
+
+
+because for each container in our app we dont need to do
+docker stop <id>
+
+	 
+STOP docker-compose:
+docker-compose down
+
+Launch in background: 
+docker-compose up -d 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+Maintanence or crash case :	
+
+need automatic refresh service if it down
+
+restart policies we use
+
+	"no" : never attempt to reset,
+	always : if stop for any reason reset
+	         (use things like web-server)
+	on-failure : only reset if container stops with an error code
+		     (use for worker process)
+	unless-stopped : always reset unless we forcibly stop it.
+	
+		 
+			 
+			 
+	
+	
+	
+	
+container status: 
+
+docker-compose ps  ( only work in your .yml directory)
+
+
+
+
+
+
+=====================================================================
+
+
+
+
+Now PRODUCTION STATE :
+
+--> development --> testing --> deployment -->
+
+
+	repo
+branches    master(auto deploy to our deploy area)  --> send to travis ci -->
+push to hosting server.
+
+
+develop -> pull request to merge -> travis do tests -> merge with master ->
+travis do test on prod mode and deploy -> hosting. 
+
+must do pull request from branch to master to deploy app(merge stuff)
+not push code to master
+
+
+
+but what docker do in this ????
+
+docker is  tool for normal, make it a lot easier.
+but not requirement.
+
+ 
+ 
+ 
+ 
+ 
+we create 2 docker file : dev and prod
+
+dev  (Dockerfile.dev) work with npm run start
+
+prod (Dockerfile) work with npm run build
+
+
+
+DEV DOCKERFILE:
+
+must run dockerfile with custom name (.dev)
+
+docker build -t <name> -f(specify file to use build image) <name of file> .
+
+to start container :
+
+docker run -it -p port:port image
+
+
+
+
+
+
+
+
+
+
+
+
+now we want to image reflect changes in code :
+
+DOCKER VOLUMES :
+
+we adjust command of docker run file.
+
+use volumes
+
+with volume we set up a placeholder of sorts inside of container rather than copy
+(inside WORKDIR) 
+it point back to local machine.
+
+
+volume : is mapping from a folder inside container to folder in local.
+
+each -v is switch 
+
+docker run -p port:port -v /app/node_modules -v   $(pwd):/app   <iamge id>
+                                             (pwd map to /app in workdir)
+            (because we have not node_modules in dev we say use from container)
+            (not override node_modules)
+            
+but we must shorten it.
+
+
+
+
+
+
+
+
+
+Short volume with docker compose :
+
+add volumes to services section of .yml
+
+
+
+
+
+
+for use different file for docker to use with docker-compose :
+
+build:
+	context: (where files and folder for this image pull from)
+	dockerfile: Dockerfile.dev
+
+
+
+
+
+
+
+
+
+
+
+
+exec test :
+
+docker run <id of container> npm run test
+
+but test not re run.
+
+docker run -it <id> npm run test
+
+now what to do when for update changes in test? 
+
+need to make snapshots work alive like before 
+with volume
+
+bad way : can go and find alive container and do
+docker exec -it <id> npm run test 
+(it works when docker-compose up work with volumes)
+
+
+better way:
+make second service to run our test in .yml 
+and must override starting command.
+but have not access to stdin of test.
+
+
+but we need to manipulate test suits
+
+we use docker attach command
+
+docker attach === with it we can forward input from terminal directly to specific 
+                  container
+docker attach <id of container you want>
+
+with dockere attach we attach to stdin of npm process not npm run test
+
+
+
+
+
+
+
+
+NOW IN PROD MODE :
+
+we need nginx 
+
+why?
+
+because of dev server does not exist.
+
+
+we  need production server to response request of browser.
+
+
+
+
+
+
+
+
+
+multi step docker build 
+
+we need new dockerfile for prod env.
+we need build folder.
+but need nginx.
+
+we need 2 base image
+
+because of that we need multi step docker
+build phase               run phase 
+
+
+how impelemnt it?
+
+
+write with as builder
+
+
+in second phase add
+
+COPY --from=builder
+
+docker build .
+docker run -p ourport:(80 nginx)
+
+
+
+
+====================================================================
+
+
+
+
+NOW IMPLEMENT FLOW TO DEPLOY :
+
+github travis ci and aws
+gitlab gitlab ci and abrarvan.
+
+
+
+go to travisci.org connect your github or lab to it.
+
+
+we must inform travis what we want he do.
+
+
+we create .tavis.yml it have some direction to tell to travis what to do.
+
+
+
+steps for dev: 
+tell need copy of docker running
+
+build our image use Dockerfile.dev
+
+tell to run test suits and how
+
+tell travis how deploy to server aws
+
+
+
+.travis.yml
+
+sudo : required (because of docker)
+services:
+ - docker (we need a service named docker)
+ 
+before_install: (a series of command exec before install)
+ - (docker build command tagged name)
+
+script:
+ - (travis watch output of these commands here with test) -- --coverage(to let test finish)
+
+
+
+
+
+
+
+automatic build creation :
+just push to master
+
+
+
+
+
+
+elastik beanstalk : good for one container.
+
+create new app.
+need create env.
+select server or worker.
+(base config -> platform -> docker)
+create env.
+
+
+request pass from load balancer.
+it auto add more virtual machine .
+auto scale app.
+
+
+
+
+
+
+
+
+
+TRAVIS CI FOR CONFIG :
+add more config to travis
+
+add deploy section to file .
+provider
+region
+travis zip file and copy on hard drive called bucket_name.
+
+
+
+after adding this need 
+
+
+
+
+to expose port in dockerfile.
+
+EXPOSE 80
+
+
+
+
+
+
+
+
+
+WORKFLOW ON GITHUB :
+
+
+git checkout -b feature
+
+create and merge pull request :
+
+
+
+
+
+
+
+
+=================================================================
+
+
+
+
+
+multiple container
+
+its better not build image in every steps
+maybe we have outside dependencies
+how to connect to db from contianer.
+
+
+
+
+
+
+nginx ---- recat         worker ]
+      ---- exprress ---- redis  ]
+                    ---- postgress
+
+
+
+make worker listen to redis
+maker server with pg and redis
+
+ 
+
+
+		 
+			 
+			 
+define each service front back and worker a dockerfile.dev
+
+define compose file
+but we must feed with env variables.		 
+			 
+value take from computer.
+
+add 2 more services for worker and front.
+	 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+			 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
