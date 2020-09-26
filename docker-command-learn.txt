@@ -868,6 +868,49 @@ add 2 more services for worker and front.
 			 
 			 
 			 
+Nginx : listen on port 3000
+send client to 3000
+send server to 5000 
+for ex.
+route to apropriate service.
+
+
+
+
+
+
+
+Multi container setup for prod
+push to github
+travis do 
+travis build test image, test code
+travis build prod image
+travis push prod image to docker hub
+travis push to server
+server pulls image to docker hub.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 			 
 			 
 			 
