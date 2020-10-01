@@ -1,0 +1,27 @@
+sudo: required
+
+services:
+  - docker
+
+before_install:
+  - docker build -t mk/react-test -f ./client/Dockerfile.dev ./client
+  # if you have other project need to test build script come here.
+
+script:
+  - docker run -e CI=true mk/react-test npm test
+  #  docker run other project test here.
+
+# build prod version
+after_success:
+  - docker build -t mk/fibo-client ./client
+  - docker build -t mk/fibo-nginx ./nginx
+  - docker build -t mk/fibo-server ./server
+  - docker build -t mk/fibo-worker ./worker
+  # log in to docker cli
+  # put it in encrypt env
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+  #  push to docker hub
+  - docker push mk/fibo-client
+  - docker push mk/fibo-nginx
+  - docker push mk/fibo-server
+  - docker push mk/fibo-worker

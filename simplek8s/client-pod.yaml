@@ -1,0 +1,13 @@
+#  this is for make one file from container to run on VM.
+apiVersion: v1
+kind: Pod
+metadata:
+  name: client-pod
+  labels:
+    component: web
+spec:
+  containers:
+    - name: client
+      image: stephengrider/multi-worker
+      ports:
+        - containerPort: 3000
