@@ -1,16 +1,17 @@
+# it's api
 apiVersion: apps/v1
+# it's object type
 kind: Deployment
 metadata:
   name: client-deployment
 spec:
-  replicas: 3
+  replicas: 1
+  # by this we trace pod creation in master
   selector:
     matchLabels:
-      # means the thing this deployment is managing is web
       component: web
   template:
     metadata:
-      # identifier for pod how to manage
       labels:
         component: web
     spec:
