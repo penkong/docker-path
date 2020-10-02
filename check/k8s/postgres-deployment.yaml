@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: redis-deployment
+  name: postgres-deployment
 spec:
   replicas: 1
   selector:
     matchLabels:
       # means the thing this deployment is managing is web
-      component: redis
+      component: postgres
   template:
     metadata:
       # identifier for pod how to manage
       labels:
-        component: redis
+        component: postgres
     spec:
       containers:
-        - name: redis
-          image: redis
+        - name: postgres
+          image: postgres
           ports:
-            - containerPort: 6379
+            - containerPort: 5432

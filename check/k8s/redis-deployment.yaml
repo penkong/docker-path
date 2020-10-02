@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: redis-deployment
+  name: client-deployment
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       # means the thing this deployment is managing is web
-      component: redis
+      component: web
   template:
     metadata:
       # identifier for pod how to manage
       labels:
-        component: redis
+        component: web
     spec:
       containers:
-        - name: redis
-          image: redis
+        - name: client
+          image: stephengrider/multi-client
           ports:
-            - containerPort: 6379
+            - containerPort: 3000
