@@ -868,55 +868,714 @@ add 2 more services for worker and front.
 			 
 			 
 			 
-Nginx : listen on port 3000
-send client to 3000
-send server to 5000 
-for ex.
-route to apropriate service.
-
-
-
-
-
-
-
-Multi container setup for prod
-push to github
-travis do 
-travis build test image, test code
-travis build prod image
-travis push prod image to docker hub
-travis push to server
-server pulls image to docker hub.
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+for .yml file in prod form
+specify docker dependency
+build test version of front
+run 
+build prod version of all proj
+push to docker hub
+tell elastik to update
+		 
 			 
 			 
+docker login
+		 
 			 
 			 
-			 
-			 
+
+=====================================================
+=====================================================
+-====================================================
+
+kubernetes 
+
+
+request come through load balancer.
+
+what is and why we use it???
+
+kubernetes have cluster 
+
+cluster = master + one or more nodes(vps or computer each run sets of
+container)
+
+nodes manage by master(it contains programs)
+
+we give direction to master.
+
+
+kubernetes is system for running many containers over multi machines
+why ? when you need run many containers with many image.
+
+
+
+
+
+
+
+
+
+
+
+in development area it is with minikube
+
+
+in production do it yourself or managed soulutions
+
+
+
+
+
+
+
+
+minikube : create and run kubernetes cluster in your machine
+           use for managing vm(node) itself
+           (ONLY LOCAL) and (only work with one node).
+
+
+kubectl : to interact with cluster master,
+          use for managing containers in the node.
+          (BOTH PROD AND LOCAL) 
+
+
+
+
+Virtual Machine (node) = container + container + ... 
+
+
+
+
+steps to install 
+install kubectl
+install a vm driver virtual box
+install minikube
+
+
+
+
+
+
+minikube start
+minikube status
+
+
+
+check info of cluster
+cmd : kubectl cluster-info
+
+
+
+
+
+
+
+
+
+
+-------------------------
+
+
+
+
+
+objection : make fibo-client(react) image running on our local kubernentes
+            cluster running as a container.
+            
+            
+            
+            
+            
+            
+            
+difference between docker-compose vs kubernetes.      
+            
+
+docker-compose :
+each service , build an image , 
+               a container we want to create,  
+               each has own networking requirements.
+
+
+kubernetes :
+each service , expect allready all of them built (there is no build pipe),
+               one config file per -$object$- we want to create.
+               we have manually setup all networking.
+               
+        
+        
+
+steps : get a container running on our local kubernete cluster  
+
+make sure our image is hosted on docker hub
+make one config file to create the container($object).
+make one config file to setup networking.
+
+
+
+dl image
+pull image from docker hub
+
+config to create one file from container
+make clietn-pod.yaml(we made $object)
+
+
+networking setup
+client-node-port.yaml
+
+
+
+
+
+
+
+
+description for client-pod :
+we make $object 
+
+we feed those config file to kubectl
+
+kubectl interpert and make object from config file
+object = a thing exist in k8s cluster.
+
+ex object : StatefulSet, ReplicaController, Pod , Service 
+
+objects have different purpose monitionring running web and ...
+
+kind : represent type of object we implement
+
+pod : run container , service : setup networking
+
+
+
+
+
+
+apiVersion : v1 
+it limits type of object we can specify that we want create
+open access to predefined set of objects.
+it access to componentStatus , configMap, Endpoints ,Event ,pod 
+Namespace and ...
+
+apiVersion : apps/v1
+it access to ControllerRevision StatefulSet
+
+
+
+
+what POD is ??
+vm = node
+node use to run different type of objects.
+
+node -> 
+pod(grouping of containers with a very common purpose) -> 
+container...
+
+
+
+
+the smallest thing we deploy is pod 
+why make pod?? 
+purpose of pod is to allow group of containers
+with a very similar purpose
+containers are really coupled use in pod.
+
+then name prop in spec containers can use for connect networking
+inside pod between containers.
+
+metdadata : info about pop and logging stuff . 
+
+
+
+
+
+
+
+what is Service??
+
+setting up networking in a kubernetes Cluster.
+
+it have 4 subtype
+ClusterIP
+NodePort  === expose a container to the outside world (for dev only)
+LoadBalancer
+Ingress	
+
+
+
+
+
+
+
+
+mean it is a Service NodePort
+
+browser -< kube-proxy -< Service NodePort -< Pod(port3000 - multi client)
+
+every node hase kube porxy
+one single window to outside.
+
+
+selector find other object with it name
+label selector system connect service and Pod
+
+port : a port that other pod or container in cluster can access to current
+       client app
+       
+targetPort : a port inside pod we want open traffic to it. send icoming 
+	     traffic to this.
+	     
+nodePort : (30000 - 32767) a port can access from browser.
+	   if not specfied go random. (not prod env)
+ 
+
+
+
+
+
+
+Now feed file to kubectl :
+
+
+kubectl          apply                  -f           <file name>
+
+cli for         change current        specify         path to file   
+interact        config                  file
+with cluster
+
+
+
+run 2 time
+
+
+
+
+to inspect status of 2 object:
+
+kubectl get pods
+
+READY 1/1   === one copy running / numbers we want to have
+
+
+kubectl get services
+
+
+
+
+
+now we must ask minikube to give us address to access vm(node) from
+our browser.
+
+minikube ip
+
+
+
+
+
+
+
+
+
+
+
+
+what happened when we feed config file to kubectl?
+
+
+deploy file ----> kube-apiserver(master) ===> NODES (VMS)with objs inside
+
+(i want run4 copies)---> table of responsibilities(3 or 4 programs) -> 
+
+kube-apiserver: i monitor current status of each node in cluster to do
+                theri work.
+                
+                
+
+
+
+
+impertative        vs    declarative deployment
+
+do exactly               our container should look
+steps to arrive          like this (run 4 copies for me)
+
+
+
+
+
+
+
+
+
+------------------------------------
+
+Now we want to update our eixisting pod to use the new image
+
+
+update an object (in place):
+update config
+kubectl
+master understand and make update Pod in vm(node)
+	name and kind are unique identifying
+	if dont change name just update happen
+
+how find out it updted?
+
+
+
+
+
+
+
+
+
+
+get detailed info of an object : 
+
+kubectl describe <object type> <object name>
+
+
+
+
+
+
+something(port ... ) in config can not update
+what is workaround?
+
+we use new type of object 
+
+Deployment : is obejct that is meant to maintain a set of identical pods
+	     (one pod , 2 pod or more and constantly work to check pods
+	     and can correct config and make it always runable state)
+	     it runs set of identical pods.
+	     monitor state of each pod
+	     good for dev and production.
+	     
+
+when we create it something attach to it : a pod template , a little block
+	of config. 
+
+
+selector in deployment :
+by this we trace pod creation in master
+
+
+
+
+
+
+
+delete exist pod object.
+
+
+kubectl delete -f <config file >
+
+
+
+
+
+
+
+create Deployment :
+
+kubectl apply -f <config>
+
+
+get status :
+
+kubectl get pods
+kubectl get deployments
+
+
+
+
+
+
+
+kubectl get pods -o wide
+kubectl get deployments -o wide 
+
+every pod we create get his own ip assign to it
+because change in pod maybe cause ip change we 
+have serivce layer
+
+
+
+
+
+
+
+
+
+update deployment when new image available :
+
+update docker image in hub.
+
+triger Deployment update
+(add an extra step to trigger it or use an imperative command)
+
+kubectl   set   image   <object type>  / <object name>    <container name> = <new image to use>
+       to change  an        type        name of object      name of the
+                                                       contaienr(config)
+
+kubectl set image Depoloyment/client-deployment cilent(name in containers)
+<new image>
+
+kubectl set image deployment/client-deployment client=stephengrider/multi-client:v5
+
+
+
+
+
+
+
+
+what happen when we feed config file
+
+
+kubectl -> master -> vm -> docker-client -> docker-server -> image cache
+-> docker hub.
+
+
+
+
+
+
+
+
+
+
+how set docker-client work in vm?
+Reconfigure Docker CLI
+
+eval $(minikube docker-env) ===> connect to daemon in minikube
+
+can debug, kill kubernetes container to test heal , delete cached image
+
+
+also kubectl have this
+
+kubectl exec -it <deploy id> sh
+
+
+
+
+
+
+
+-----------------------------------------------------
+
+
+
+multi container app with kubernetes :
+
+
+Architecture :
+
+                  clusterIP service
+                     deployment
+                     clitent pods
+ingress services                                           deployment
+                  clusterIP service                         worker
+		     deployment    
+		     server pods       clusterIP service   deployment
+		     					    redis
+
+                                        clusterIP serivce  deployment
+                                                            postgres
+                                                          
+                                                            postgres pvc
+
+
+
+path : 
+create a config file for each service, deployment
+test on minikube.
+travis flow to build image and deploy
+deploy to cloud provider.
+
+
+
+
+
+
+
+we need 11 config k8s file
+
+
+
+
+
+
+
+
+
+
+ClusterIP Service :
+
+service == do some networking
+NodePort == only dev env - expose pods to outside
+
+clusterip == allow any other object insdie our cluster to access the
+             object that the cluster ip is pointing
+	     provide access to object (not from outside cluster)
+	     
+
+
+ClusterIP config  
+
+
+remvoe past object
+
+kubectl delete deployment client-deployment
+
+kubectl delete service client-node-port
+
+
+
+
+
+
+
+
+for apply group of apply :
+
+kubectl apply -f k8s
+
+
+multi object config seprate with ---
+
+
+
+
+
+
+
+postgres pvc - persistant volume claim
+
+we must keep data if postgres pod lost.
+ 
+must put volume on host machine.
+
+request to write ==> pod postgress ==> write to volume
+
+
+
+
+
+
+
+
+
+pre volume : some type of mechanism that allows a container to access
+	     a file system outside itself.
+
+Kubernetes Volume : a very particular object . a object that allow a
+                    container store data on pod level.
+
+types : 
+PVC :  advertisment possible storage item - billboard . 
+       we write what pv is available ,
+       kubernetes is sales person . pv s are created ahead of time like
+       product in store (staticaly provisioned persistance volume)
+       if we want special one k8s will make for us (if we ask for it)
+       (dynamically provisioned persistant volume)
+       
+PV : (it is outside pod)
+ 
+V (survive container reset but not pod reset)
+
+
+
+
+
+we take volume claim and attach it to pod config
+and hand it to k8s.
+
+
+
+
+access mode : 
+readwriteonce : can be used by a single node
+readonlymany : multiple nodes can read from this.
+readwritemany : can be read and written to by many nodes
+
+storage options :
+azure , hard , google and ... options on cloud.
+kubectl get storageclass
+
+provision how kube going to decide how create pv .
+k8s.io/minikube-hostpath 
+ 
+kubectl describe storageclass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
