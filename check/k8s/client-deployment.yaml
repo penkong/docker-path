@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      # means the thing this deployment is managing is web
+      component: web
+  template:
+    metadata:
+      # identifier for pod how to manage
+      labels:
+        component: web
+      sepc:
+        containers:
+          - name: client
+            image: stephengrider/multi-client
+            ports:
+              - containerPort: 3000
