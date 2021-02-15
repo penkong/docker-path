@@ -1,0 +1,65 @@
+docker use lx container 
+
+
+os kernel + software 
+
+hardware > os > docker > container > libs and deps > app
+
+hardware > hypervisor > os(vm) , os(vm) > libs and deps > app 
+
+docker run -d  ==> docker attach id (you will go in background container)
+docker run -it centos bash
+cat /etc/*release
+
+
+port mapping 
+or 
+find ip of docker image on 
+network section of 
+docker inspect <name or id>
+
+
+find docker host ip :
+ifconfig
+
+
+
+
+to persist data out of container :
+need map a volume 
+to your local
+
+
+
+env 
+
+export APP_COLOR=blue
+
+in docker command 
+docker run -e APP_COLOR=blue <image name>
+
+
+CMD vs ENTRYPOINT
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
