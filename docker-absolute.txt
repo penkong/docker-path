@@ -44,13 +44,17 @@ CMD vs ENTRYPOINT
 
 
 
+docker exec <id of container> ps -eaf (list all process runiing inside container)
 
 
 
 
 
+du -sh .
 
 
+
+docker syste df <or> -v
 
 
 
