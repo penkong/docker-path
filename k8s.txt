@@ -1,0 +1,55 @@
+k8s is consist of 
+
+
+api server : front end fro manage users
+
+etcd : is distributed key , value store , data stored to mangae cluster
+responsible for implementing logs into master , sure no conflict for masters 
+
+scheduler : responsible for disterbuting work for containers cros multi
+nodes , and create containers and assign them to nodes 
+
+controllers : brain of orchestrations , they are responsible for react when nodes 
+go down 
+
+container runtime : underlying software use to run containers , like docker 
+
+kubelet : is agent that runs on each node on cluster , it make sure containers run on 
+nodes as expected  
+
+----------------
+
+
+minikube and microK8s for local
+
+
+
+kubeadm for production 
+
+
+kubectl get nodes/deployments
+
+kubectl create deployment hello-minikube --image=k8s.gcr.io/echoserver:1.10
+
+kubectl expose deployment hello-minikube --type=NodePort --port=8081
+
+minikube service hello-minikube --url
+
+minikube delete services hello-minikube 
+minikube delete deployments hello-minikube 
+
+
+kubectl delete deployment,services --all
+
+create nginx pod 
+kubectl run nginx --image=nginx
+
+kubectl describe pod nginx
+
+kubectl get pods -o wide
+
+containers encapsulated in k8s object name POD
+smallest object of k8s
+
+
+kubectl create -f yamlfile
