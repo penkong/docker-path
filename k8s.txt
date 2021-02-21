@@ -53,3 +53,52 @@ smallest object of k8s
 
 
 kubectl create -f yamlfile
+
+
+kubectl describe pod <name> | grep -i image
+
+kubectl run <image> --image=<naem of image> --dry-run=client -o yaml > pod.yaml
+
+kubectl edit pod redis
+
+
+----
+
+Kubernetes controllers : controller of objects and respond to them accordingly
+
+for high availability , load blancing and scaling allow deploy across multi node 
+
+Replication Controller replaced with Replica Set
+
+kubectl describe replicaset 
+
+kubectl scale replicaset name --replicas=2
+
+
+--- 
+
+rolling updates
+
+deployment(replicaset(pods(container)))
+
+
+update and rollback , rollout 
+
+rollout and verioning
+
+
+kubectl rollout status deploymentplace
+kubectl rollout history place
+
+rolling update is defualt strategy
+
+
+for rollback
+
+kubectl rollout undo deployment/my-deployment
+
+in cluster mode with different node we need have Networking solution like 
+cisco , cilium , flannnel , nsx , calico 
+
+
+minikube service servicename --url
