@@ -1,0 +1,16 @@
+<html>
+                <head>
+                <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+                <title>037 Using BuildKit to Reuse NPM Cache</title>
+                </head>
+                <body>
+                <div class="container">
+                <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <p class="lead"><p>If you ever change a Dockerfile line before the <code>RUN npm install</code> line, or you change your package.json or lock file, Docker will need to re-run <code>npm install</code> on the next build. Docker, by default, won't re-use package manager download caches like the NPM cache.</p><p>If you have large package.json files with slow dependency installs due to large downloads, you can speed up rebuilds by enabling the BuildKit caching feature on specific directories inside your docker builds. I've seen this speed up re-builds by over 50% with large dependency trees.</p><p><strong>Remember you can't yet use this with docker-compose build, so you'd need to build your images manually with docker build and then use that image name in your docker-compose.yml</strong></p><p>To set this up for re-using the NPM download cache:</p><ol><li><p>add this as the first line in your Dockerfile: <code># syntax = docker/dockerfile:experimental</code></p></li><li><p>Start your Dockerfile npm install line with: <code>RUN --mount=type=cache,target=/root/.npm/_cacache</code></p></li></ol><p>See an example Dockerfile in the course repo at <code>./sample-buildkit-cache</code> </p></p>
+                </div>
+                </div>
+                </div>
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+                </body>
+                </html>

@@ -1,0 +1,36 @@
+
+006 Docker-Docs-Compose-overview
+https://docs.docker.com/compose/overview/
+
+007 Docker-Docs-for-Installing
+https://docs.docker.com/install/#supported-platforms
+
+007 Docker-Toolbox-Install
+https://github.com/docker/toolbox/releases
+
+008 Docker-Docs-Compose-overview
+https://docs.docker.com/compose/overview/
+
+008 Docker-Compose-not-ideal-for-production
+https://github.com/BretFisher/ama/issues/8
+
+009 Docker-Docs-Compose-file-format
+https://docs.docker.com/compose/compose-file/
+
+009 Online-YAML-validator
+https://codebeautify.org/yaml-validator
+
+009 Docker-Docs-Compose-File-Versioning
+https://docs.docker.com/compose/compose-file/compose-versioning/
+
+009 GitHub-PR-Compose-v2-vs.v3-feature-clarification-improvements
+https://github.com/docker/docker.github.io/pull/7593
+
+010 Docker-Docs-docker-compose-CLI-commands
+https://docs.docker.com/compose/reference/overview/
+
+011 Docker-Docs-docker-compose-CLI-commands
+https://docs.docker.com/compose/reference/overview/
+
+011 About-apk-Alpine-Linux-package-management
+https://wiki.alpinelinux.org/wiki/Alpine_Linux_package_management

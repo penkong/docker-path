@@ -1,0 +1,9 @@
+
+025 Docker-Docs-Inject-init-into-docker-run-for-process-management
+https://docs.docker.com/engine/reference/run/#specify-an-init-process
+
+025 Tini-A-tiny-but-valid-init-for-containers
+https://github.com/krallin/tini
+
+026 hapi.js-API-framework
+https://hapijs.com/

@@ -1,0 +1,36 @@
+
+014 Docker-Docs-Dockerfile-Best-Practices
+https://docs.docker.com/develop/develop-images/dockerfile_best-practices/
+
+015 Node.js-Release-Schedule
+https://github.com/nodejs/Release#release-schedule
+
+015 GitHub-ONBUILD-deprecation
+https://github.com/docker-library/official-images/issues/2076
+
+015 Node-Official-Image-on-Docker-Hub
+https://hub.docker.com/_/node
+
+016 CVE-Scanning-and-Base-Images
+https://kubedex.com/follow-up-container-scanning-comparison/
+
+016 YouTube-Video-on-Image-Scanning-Gotchas
+https://www.youtube.com/watch?v=e2pAkcqYCG8
+
+017 CentOS-on-Docker-Hub
+https://hub.docker.com/_/centos
+
+017 Node-on-Docker-Hub
+https://hub.docker.com/_/node
+
+019 Dockerfile-USER-docs
+https://docs.docker.com/engine/reference/builder/#user
+
+019 Dockerfile-COPY-docs
+https://docs.docker.com/engine/reference/builder/#copy
+
+020 Difference-between-chmod-and-chown
+https://www.unixtutorial.org/difference-between-chmod-and-chown
+
+021 Docker-Docs-Dockerfile-Best-Practices
+https://docs.docker.com/develop/develop-images/dockerfile_best-practices/

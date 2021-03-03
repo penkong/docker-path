@@ -1,0 +1,16 @@
+<html>
+                <head>
+                <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+                <title>036 Using BuildKit to Enable SSH Keys for Private NPM Repositories</title>
+                </head>
+                <body>
+                <div class="container">
+                <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <p class="lead"><p>If your Node project has private git repos for node modules, it'll need a particular setup so SSH can be used when building the image. </p><p><strong>The previous solution before BuildKit was:</strong></p><ol><li><p>Use multi-stage builds.</p></li><li><p>COPY a decrypted-private-key in to an early stage where npm install is run.</p></li><li><p>COPY the node_modules from that stage to a new image that doesn't include the key.</p></li></ol><p>That solution worked if you're ok with having the ssh key stored in your local docker engine images, but it wasn't ideal, and didn't work with encrypted ssh keys that required a passphrase.</p><p><strong>The new way is to use BuildKit with the ssh-agent feature, and is much more secure:</strong></p><ol><li><p>Setup ssh-agent and your keys on the host OS like normal.</p></li><li><p>Add this as the first line in your Dockerfile: <code># syntax = docker/dockerfile:experimental</code></p></li><li><p>Start your Dockerfile npm install line with this: <code>RUN --mount=type=ssh</code></p></li><li><p>Run docker build with <code>--ssh default</code> as an additional option to enable the feature for that build.</p></li></ol><p><strong>Remember you can't yet use this with docker-compose build, so you'd need to build your images manually with docker build and then use that image name in your docker-compose.yml</strong></p><p>See an example Dockerfile in the course repo at  <code>./sample-buildkit-ssh</code> </p></p>
+                </div>
+                </div>
+                </div>
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+                </body>
+                </html>

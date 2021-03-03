@@ -1,0 +1,21 @@
+
+031 Docker-Docs-Use-multi-stage-builds
+https://docs.docker.com/develop/develop-images/multistage-build/
+
+032 Advanced-multi-stage-build-patterns
+https://medium.com/@tonistiigi/advanced-multi-stage-build-patterns-6f741b852fae
+
+035 DockerCon-Video-Supercharged-Docker-Build-with-BuildKit
+https://www.youtube.com/watch?v=kkpQ_UZn2uo
+
+035 Docker-Docs-Build-Enhancements-in-18.09
+https://docs.docker.com/develop/develop-images/build_enhancements/
+
+035 GitHub-BuildKit-needs-support-for-docker-compose
+https://github.com/moby/buildkit/issues/685
+
+036 Docker-Docs-Using-SSH-to-access-private-data-in-builds
+https://docs.docker.com/develop/develop-images/build_enhancements/#using-ssh-to-access-private-data-in-builds
+
+037 BuildKit-frontends-Including-Cache
+https://github.com/moby/buildkit/blob/master/frontend/dockerfile/docs/experimental.md
