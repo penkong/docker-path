@@ -1,0 +1,60 @@
+
+061 Dockerfile-LABEL-info-in-Docs
+https://docs.docker.com/engine/reference/builder/#label
+
+061 Docker-object-labels
+https://docs.docker.com/config/labels-custom-metadata/
+
+061 OCI-standard-label-format
+https://github.com/opencontainers/image-spec/blob/master/annotations.md
+
+061 Dockerfile-ARG-info-in-Docs
+https://docs.docker.com/engine/reference/builder/#arg
+
+062 Docker-Hub-Advanced-options-for-autobuild-and-autotest
+https://docs.docker.com/docker-hub/builds/advanced/
+
+062 Node-Hero-Node.js-Unit-Testing-Tutorial
+https://blog.risingstack.com/node-hero-node-js-unit-testing-tutorial/
+
+063 10-npm-Security-Best-Practices
+https://snyk.io/blog/ten-npm-security-best-practices/
+
+063 Container-security-scanning-comparison
+https://kubedex.com/container-scanning/
+
+063 Part-2-Follow-up-on-Container-Scanning
+https://kubedex.com/follow-up-container-scanning-comparison/
+
+063 Docker-image-scanning-how-to
+https://sysdig.com/blog/container-security-docker-image-scanning/
+
+063 29-Docker-security-tools-compared
+https://sysdig.com/blog/20-docker-security-tools/
+
+064 How-to-deal-with-docker-compose-CI-exit-codes
+https://stackoverflow.com/questions/29568352/using-docker-compose-with-ci-how-to-deal-with-exit-codes-and-daemonized-linked
+
+064 Hadolint-a-Dockerfile-linter
+https://github.com/hadolint/hadolint
+
+064 dockerfilelint-An-opinionated-Dockerfile-linter
+https://github.com/replicatedhq/dockerfilelint
+
+064 Docker-Hub-automated-repo-testing-with-docker-compose
+https://docs.docker.com/docker-hub/builds/automated-testing/
+
+064 Docker-tag-latest-confusion
+https://container-solutions.com/docker-latest-confusion/
+
+065 Dockerfile-HEALTHCHECK-docs
+https://docs.docker.com/engine/reference/builder/#healthcheck
+
+065 Effective-Docker-Healthchecks-for-Node.js
+https://medium.com/@patrickleet/effective-docker-healthchecks-for-node-js-b11577c3e595
+
+068 Aqua-Microscanner
+https://github.com/aquasecurity/microscanner
+
+068 Tini-the-tiny-init
+https://github.com/krallin/tini

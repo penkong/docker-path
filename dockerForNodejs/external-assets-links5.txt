@@ -1,0 +1,36 @@
+
+039 The-Twelve-Factor-App
+https://12factor.net/
+
+040 12-Factor-Configs
+https://12factor.net/config
+
+040 Advanced-Node.js-Project-Structure-Tutorial
+https://blog.risingstack.com/node-js-project-structure-tutorial-node-js-at-scale/
+
+040 Using-Environment-Vars-in-Nginx-Configuration
+https://docs.docker.com/samples/library/nginx/#using-environment-variables-in-nginx-configuration
+
+040 Templated-Nginx-configuration-with-Bash-and-Docker
+https://thepracticalsysadmin.com/templated-nginx-configuration-with-bash-and-docker/
+
+040 envsubst-example-for-use-in-Nginx
+https://stackoverflow.com/questions/44804974/dynamic-default-conf-of-nginx-in-docker
+
+041 12-Factor-Logs
+https://12factor.net/logs
+
+041 Winston-Logging-with-the-console-transport
+https://github.com/winstonjs/winston/blob/master/docs/transports.md#console-transport
+
+042 gitignore-docs-use-for.dockerignore
+https://git-scm.com/docs/gitignore
+
+042 .gitignore-generator-also-useful-for.dockerignore
+https://www.gitignore.io/
+
+042 More.dockerignore-examples
+https://blog.codeship.com/leveraging-the-dockerignore-file-to-create-smaller-images/
+
+043 Winston-logging-with-console-transport
+https://github.com/winstonjs/winston/blob/master/docs/transports.md#console-transport

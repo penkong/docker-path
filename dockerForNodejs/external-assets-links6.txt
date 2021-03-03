@@ -1,0 +1,63 @@
+
+046 Docker-Docs-Compose-file-v2
+https://docs.docker.com/compose/compose-file/compose-versioning/#version-21
+
+047 Mac-Docker-file-caching-performance-improvements
+https://blog.docker.com/2017/05/user-guided-caching-in-docker-for-mac/
+
+047 Docker-on-Macs-file-system-sharing-details
+https://docs.docker.com/docker-for-mac/osxfs/
+
+047 Performance-tuning-for-volume-mounts-on-Mac
+https://docs.docker.com/docker-for-mac/osxfs-caching/
+
+047 Background-Sync-Tool-and-alternative-to-bind-mounts.
+https://github.com/cweagans/docker-bg-sync
+
+047 Docker-for-Windows-alternate-setups-with-WSL
+https://www.reddit.com/r/docker/comments/8hp6v7/setting_up_docker_for_windows_and_wsl_to_work/
+
+051 Nodemon-Config-files
+https://github.com/remy/nodemon#config-files
+
+052 Compose-v2-depends-on-Docs
+https://docs.docker.com/compose/compose-file/compose-file-v2/#depends_on
+
+053 Compose-File-v2-Healthcheck
+https://docs.docker.com/compose/compose-file/compose-file-v2/#healthcheck
+
+053 Example-DB-Healthchecks-from-Docker
+https://github.com/docker-library/healthcheck
+
+055 Localhost-Certificates
+https://letsencrypt.org/docs/certificates-for-localhost/
+
+055 jwilder-nginx-proxy
+https://github.com/jwilder/nginx-proxy
+
+055 Use-dnsmasq-rather-then-etc-hosts-for-dev
+https://www.stevenrombauts.be/2018/01/use-dnsmasq-instead-of-etc-hosts/
+
+055 Use-nginx-proxy-dnsmasq
+https://medium.com/@sumankpaul/use-nginx-proxy-and-dnsmasq-for-user-friendly-urls-during-local-development-a2ffebd8b05d
+
+055 Traefik-Proxy
+https://traefik.io/
+
+055 Docker-CORS-Discussion-1
+https://github.com/docker-solr/docker-solr/issues/182
+
+055 Docker-CORS-Discussion-2
+https://github.com/jwilder/nginx-proxy/issues/804
+
+055 Wildcard-DNS-for-everyone
+http://xip.io/
+
+056 Node.js-debugging-in-VS-Code
+https://code.visualstudio.com/docs/nodejs/nodejs-debugging
+
+056 Debugging-TypeScript-in-a-Docker-Container
+https://github.com/Microsoft/vscode-recipes/tree/master/Docker-TypeScript
+
+056 ts-node-readme
+https://github.com/TypeStrong/ts-node

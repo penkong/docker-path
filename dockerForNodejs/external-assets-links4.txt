@@ -7,3 +7,6 @@ https://github.com/krallin/tini
 
 026 hapi.js-API-framework
 https://hapijs.com/
+
+
+docker build -t name --target prod .

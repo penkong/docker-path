@@ -1,0 +1,38 @@
+<html>
+                <head>
+                <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+                <title>054 Shrinking Compose Files and DRY YAML</title>
+                </head>
+                <body>
+                <div class="container">
+                <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <p class="lead"><p><strong>While not Node-specific, I thought I'd remind you of three significant features in docker-compose YAML that saves you time, prevents repetitive lines in each service (keeping it DRY), and create flexibility for large projects and teams.</strong></p><h4><strong>Environment variables</strong></h4><p>Eventually, you'll need a compose file to be flexible and you'll learn that you can use environment variables inside the Compose file. Note, this is not related to the YAML object <code>environment</code>, which you want to send to the container on startup. With the notation of <code>${VARNAME}</code>, you can have Compose resolve these values dynamically during the processing of that YAML file. The most common examples of when to use this are for setting the container image tag or published port. If your docker-compose.yml file looks like this:</p><pre class="prettyprint linenums">version: '2' 
+services: 
+  ghost: 
+    image: ghost:${GHOST_VERSION}</pre><p> ...then you can control the image version used from the CLI like so:</p><p><code>GHOST_VERSION=2 docker-compose up</code> </p><p>You can also set those variables in other ways: by storing them in a <code>.env</code> file, by setting them at the CLI with export, or even setting a default in the YAML itself with <code>${GHOST_VERSION:-2}</code>. You can read more about variable substitution and various ways to set them in the Docker docs.</p><h4><strong>Templating</strong> </h4><p>A relatively new and lesser-known feature is Extension Fields, which lets you define a block of text in Compose files that is reused throughout the file itself. This is mostly used when you need to set the same environment objects for a bunch of microservices, and you want to keep the file DRY (Don't Repeat Yourself). I recently used it to set all the same logging options for each service in a Compose file like so:</p><pre class="prettyprint linenums">version: '3.4'
+
+x-logging: 
+  &amp;my-logging
+    options: 
+      max-size: '1m' 
+      max-file: '5'
+
+services: 
+  ghost: 
+    image: ghost 
+    logging: *my-logging 
+  nginx: 
+    image: nginx 
+    logging: *my-logging </pre><p>You'll notice a new section starting with an <code>x-</code>, which is the template, that you can then name with a preceding <code>&amp;</code> and call it from anywhere in your Compose file with <code>*</code> and the name. Once you start to use microservices and have hundreds or more lines in your Compose file, this will likely save you considerable time and ensure consistency of options throughout. See more details in the Docker docs.</p><h4><strong>Control your Compose Command Scope</strong> </h4><p>The docker-compose CLI controls one or more containers, volumes, networks, etc., within its scope. It uses two things to create that scope: the Compose YAML config file (it defaults to <code>docker-compose.yml</code>) and the project name (it defaults to the directory name holding the YAML config file). Normally you would start a project with a single <code>docker-compose.yml</code> file and execute commands like <code>docker-compose up</code> in the directory with that file, but there's a lot of flexibility here as complexity grows.</p><p>As things get more complex, you may have multiple YAML config files for different setups and want to control which one the CLI uses, like <code>docker-compose -f custom-compose.yml up</code>. This command ignores the default YAML file and only uses the one you specify with the <code>-f</code> option.</p><p>You can combine many Compose files in a layered override approach. Each one listed in the CLI will override the settings of the previous (processed left to right)—e.g., <code>docker-compose -f docker-compose.yml -f docker-override.yml</code>.</p><p>If you manually change the project name, you can use the same Compose file in multiple scopes so they don't "clash." Clashing happens when Compose tries to control a container that already has another one running with the same name. You likely have noticed that containers, networks, and other objects that Compose creates have a naming standard. The standard comprises three parts: <code>projectname_servicename_index</code>. We can change the projectname, which again, defaults to the directory name with a <code>-p</code> at the command line. So if we had a <code>docker-compose.yml</code> file like this:</p><pre class="prettyprint linenums">version: '2'
+services: 
+  ghost: 
+    image: ghost:${GHOST_VERSION} 
+    ports: ${GHOST_PORT}:2368 </pre><p>Then we had it in a directory named <code>app1</code> and we started the ghost app with inline environment variables like this:</p><p><code>app1&gt; GHOST_VERSION=2 GHOST_PORT=8080 docker-compose up</code> </p><p>We'd see a container running named this: <code>app1_ghost_1</code> </p><p>Now, if we want to run an older version of ghost side-by-side at the same time, we could do that with this same Compose file, as long as we change two things. First, we need to change the project name to ensure the container name will be different and not conflict with our first one. Second, we need to change the published port so they don't clash with any other running containers.</p><p><code>app1&gt; GHOST_VERSION=1 GHOST_PORT=9090 docker-compose -p app2 up</code> </p><p>If I check running containers with a docker container ls, I see:</p><pre class="prettyprint linenums">app1_ghost_1 running ghost:2 on port 8080 
+app2_ghost_1 running ghost:1 on port 9090 </pre><p>Now you could pull up two browser windows and browse both 8080 and 9090 with two separate ghost versions (and databases) running side by side.</p><p><strong>I hope these three features help your workflow, as they have done for many the teams I've worked with in creating more complex and flexible Compose files.</strong></p></p>
+                </div>
+                </div>
+                </div>
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+                </body>
+                </html>
