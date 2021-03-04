@@ -1,0 +1,27 @@
+
+071 Brets-anser-to-just-one-host-use-Swarm-or-docker-compose-
+https://github.com/BretFisher/ama/issues/8
+
+072 5-Performance-tips-for-Node.js-apps
+https://www.nginx.com/blog/5-performance-tips-for-node-js-applications/
+
+072 A-few-proxy-examples-in-YAML-for-Swarm
+https://github.com/BretFisher/dogvscat
+
+073 Graceful-shutdown-with-Node.js-and-Kubernetes
+https://blog.risingstack.com/graceful-shutdown-node-js-kubernetes/
+
+073 Express.js-Health-Checks-and-Graceful-Shutdown
+https://expressjs.com/en/advanced/healthcheck-graceful-shutdown.html
+
+073 Stoppable-tracking-connections-and-graceful-HTTP-shutdown
+https://github.com/hunterloftis/stoppable
+
+073 Browncoat-It-aims-to-misbehave.Testing-shutdown-blue-green-and-rolling-updates.
+https://github.com/BretFisher/browncoat
+
+074 Socket.io-with-Redis-for-multi-container
+https://github.com/socketio/socket.io-redis
+
+075 dogvs.cat-Sample-apps-and-YAML-for-Swarm
+https://github.com/BretFisher/dogvscat
